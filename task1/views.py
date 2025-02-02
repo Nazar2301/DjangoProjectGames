@@ -1,7 +1,7 @@
 from django.shortcuts import render
+from django.core.paginator import Paginator
 from .forms import UserRegister
-from .models import Buyer
-from .models import Game
+from .models import Buyer, Game, News
 
 users = ['existing_user1', 'existing_user2']
 
@@ -11,11 +11,7 @@ def home(request):
 
 # Список товаров
 def shop(request):
-    games = [
-        {'title': 'Cyberpunk 2007', 'description': 'Game of the year', 'cost': 31.00},
-        {'title': 'Mario', 'description': 'Old game', 'cost': 5.00},
-        {'title': 'Hitman', 'description': 'Who kills Mark?', 'cost': 12.00},
-    ]
+    games = Game.objects.all()
     context = {'games': games}
     return render(request, 'task1/shop.html', context)
 
@@ -52,3 +48,14 @@ def sign_up_by_django(request):
     else:
         info['form'] = UserRegister()
     return render(request, 'task1/registration_page.html', info)
+
+# Новости
+def news(request):
+    news_list = News.objects.all().order_by('-date')
+    paginator = Paginator(news_list, 10)  # Показывать 10 новостей на странице
+
+    page_number = request.GET.get('page')
+    news_page = paginator.get_page(page_number)
+
+    context = {'news': news_page}
+    return render(request, 'task1/news.html', context)

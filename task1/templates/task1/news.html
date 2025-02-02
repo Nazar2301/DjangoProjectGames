@@ -1,0 +1,31 @@
+{% extends 'task1/menu.html' %}
+
+{% block pagename %}
+Новости
+{% endblock %}
+
+{% block menu %}
+{{ block.super }}
+{% endblock %}
+
+{% block content %}
+{% for new in news %}
+    <h2>{{ new.title }}</h2>
+    <p>{{ new.content }}</p>
+    <p>{{ new.date }}</p>
+{% endfor %}
+
+<div class="pagination">
+    {% if news.has_previous %}
+        <a href="?page=1">« Первая</a>
+        <a href="?page={{ news.previous_page_number }}">Предыдущая</a>
+    {% endif %}
+
+    Страница {{ news.number }} из {{ news.paginator.num_pages }}.
+
+    {% if news.has_next %}
+        <a href="?page={{ news.next_page_number }}">Следующая</a>
+        <a href="?page={{ news.paginator.num_pages }}">Последняя »</a>
+    {% endif %}
+</div>
+{% endblock %}
