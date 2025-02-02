@@ -51,8 +51,12 @@ WSGI_APPLICATION = 'mygameproject.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'имя_базы_данных',
+        'USER': 'имя_пользователя',
+        'PASSWORD': 'пароль',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
     }
 }
 
